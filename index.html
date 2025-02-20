@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajay- Portfolio</title>
+    <link rel="icon" href="assets/dp.jpeg" type="image/jpeg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: "#0a0a0a",
+                        light: "#fcfbf7",
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=EB+Garamond:ital@0;1&family=Space+Mono&display=swap');
+        .text-shadow-glow-subtle {
+            text-shadow: 0 0 12px rgba(255, 255, 255, 0.419);
+        }
+        .font-garamond {
+            font-family: 'EB Garamond', serif;
+            font-style: italic;
+        }
+
+        .nav-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        @media (min-width: 640px) {
+            .nav-container {
+                gap: 2rem;
+            }
+        }
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: #000000;
+        }
+        
+        .dark .nav-link:hover {
+            color: #ffffff;
+        }
+        .tech-icon {
+            width: 64px;
+            height: 64px;
+            transition: filter 0.3s ease, transform 0.3s ease;
+        }
+        .tech-icon {
+            filter: invert(0.4);
+        }
+        .tech-icon:hover {
+            filter: invert(0);
+            transform: scale(1.5);
+        }
+        .dark .tech-icon:hover {
+            filter: invert(1);
+            transform: scale(1.5);
+        }
+        .dark .tech-icon:hover {
+            filter: invert(1);
+        }
+        .squircle {
+            width: 256px;
+            height: 260px;
+            border-radius: 100%;
+            overflow: hidden;
+        }
+        .section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        @media (min-width: 740px) {
+            .nav-container {
+                display: grid;
+                grid-template-columns: repeat(6, auto);
+                justify-content: center;
+                gap: 2rem;
+            }
+            .squircle {
+                width: 260px;
+                height: 260px;
+            }
+        }
+        .font-space-mono {
+            font-family: 'Space Mono', monospace;
+        }
+        .footer-text {
+            transition: letter-spacing 0.8s ease;
+        }
+        .footer-text:hover {
+            letter-spacing: 4px;
+        }
+        .button {
+            font-size: 17px;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 980px;
+            transition: all 0.3s ease;
+        }
+        .button-filled {
+            background-color: #ff8c00;
+            color: #000000;
+        }
+        .button-filled:hover {
+            transform: scale(1.15);
+        }
+        .button-outlined {
+            background-color: #007AFF;
+            border: 2px solid #007AFF;
+            color: #FFFFFF;
+        }
+        .button-outlined:hover {
+            transform: scale(1.15);
+        }
+        .chevron-down {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-20px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+        }
+        .about-text {
+            font-size: 15px; /* Default size for mobile */
+        }
+
+        @media (min-width: 768px) {
+            .about-text {
+                font-size: 19px; /* Larger size for desktop */
+            }
+        }
+
+        .rdk-hover {
+            text-decoration: underline;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .rdk-hover::after {
+            content: "What is RDK-B?";
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #147eff;
+            color: #282232;
+            padding: 4px 8px;
+            border-radius: 7px;
+            font-size: 16px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+        
+        .rdk-hover:hover::after {
+            opacity: 1;
+        }
+        
+        .project-thumbnail {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.5rem;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            aspect-ratio: 2 / 1;
+        }
+        
+        .project-thumbnail:hover {
+            transform: scale(1.05);
+        }
+        
+        .project-thumbnail:hover .redirect-icon {
+            opacity: 1;
+        }
+        
+        .redirect-icon {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .redirect-icon svg {
+            color: white;
+            width: 2rem;
+            height: 2rem;
+        }
+
+        .read-more {
+            font-family: 'Space Mono', monospace;
+            text-transform: uppercase;
+            text-decoration: underline;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+        @media (max-width: 640px) {
+            .projects-container {
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+            
+            .project-tile {
+                margin-bottom: 1rem;
+                margin-left: 1rem;
+                margin-right: 1rem;
+
+            }
+        }
+        
+        .repo-actions {
+            display: flex;
+            justify-content: flex-start;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+        
+        .repo-action {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.875rem;
+            color: #718096;
+            transition: color 0.3s ease;
+        }
+        
+        .repo-action:hover {
+            color: #2d3748;
+        }
+        
+        .dark .repo-action:hover {
+            color: #e2e8f0;
+        }
+    </style>
+</head>
+<body class="bg-light dark:bg-dark text-dark dark:text-white min-h-screen flex flex-col font-['Inter'] transition-colors duration-300"></body>
+    <div class="absolute top-8 right-8 z-10">
+        <button id="themeToggle" class="p-2 rounded-lg bg-dark dark:bg-light text-light dark:text-dark w-10 h-10 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+        </button>
+    </div>
+
+    <main class="flex-grow flex flex-col">
+        <!-- Hero Section -->
+        <section class="flex items-center justify-center min-h-screen">
+            <div class="text-center max-w-4xl mx-auto px-4">
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-black mb-2 tracking-tighter leading-none text-shadow-glow-subtle">
+                    Ajay <span class="font-garamond font-normal">Legion</span>
+                </h1>
+                <p class="text-xl md:text-2xl font-semibold mb-8">
+                    <span class="bg-gradient-to-r from-[#9C83FF] to-[#FF9051] text-transparent bg-clip-text">  Web developer</span><br>
+                    <span class="text-gray-600 dark:text-[#C9C9C9]">Electrical Engineering </span>
+                </p>
+
+                <!-- Buttons -->
+                <div class="flex justify-center space-x-4 mb-12">
+                    <a href="https://github.com/ajayLegion/" class="button button-filled flex items-center space-x-2">
+                        <span>GitHub</span>
+                        <i data-lucide="github" class="w-5 h-5"></i>
+                    </a>
+                    <a href="mailto:ajaykumargundanvar@gmail.com" class="button button-outlined flex items-center space-x-2">
+                        <span>Contact Me</span>
+                        <i data-lucide="mail" class="w-5 h-5"></i>
+                    </a>
+                </div>
+            </div>
+            <!-- Add the chevron-down icon -->
+            <div class="chevron-down">
+                <i data-lucide="chevron-down" class="w-8 h-8"></i>
+            </div>
+        </section>
+
+        <!-- About Me Section -->
+        <section id="about" class="section py-20 bg-gray-100 dark:bg-gray-900">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold mb-8 text-center font-garamond">About Me</h2>
+                <div class="flex flex-col md:flex-row items-center md:items-start justify-center space-y-8 md:space-y-0 md:space-x-12">
+                    <div class="squircle bg-gray-300 dark:bg-gray-700 flex-shrink-0">
+                        <img src="dp.jpg" alt="ajay316" class="w-full h-full object-cover" />
+                    </div>
+                    <div class="max-w-2xl text-center md:text-left">
+                        <p class="about-text font-space-mono">
+                            Hi there! 👋 I'm Web Developer from India with No experience.This is my first Developer Portfolio.I'm studying Electrical Engineering in Bangalore.
+                        </p>
+                        <br>
+                        <p class="about-text font-space-mono">
+                            I'm also passionate about photography,video Editing.
+                        </p>
+                        <br>
+                        <p class="about-text interests-container">
+                            <span><span class="font-bold">Interests: </span> Photography, Movies & Science Fiction</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="section py-16">
+            <div class="container mx-auto px-8 sm:px-16">
+                <h2 class="text-3xl font-bold mb-16 text-center font-space-mono">What I fiddle with....</h2>
+    
+                <div class="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-3 gap-12 place-items-center">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/c.svg" alt="C" class="tech-icon">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/cplusplus.svg" alt="C++" class="tech-icon">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@3.13.0/icons/github.svg" alt="github" class="tech-icon">
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation Links Section -->
+        <section id="links" class="section py-16">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold mb-16 text-center font-space-mono">Connect with me</h2>
+                <nav class="nav-container">
+                    <a href="https://github.com/ajayLegion" class="nav-link text-xl md:text-2xl text-gray-600 dark:text-gray-400 font-bold">
+                        <i data-lucide="github" class="w-6 h-6"></i>
+                        Github
+                    </a>
+                    <a href="https://drive.google.com/file/d/1oAsjdR1MXo-e61Dz91Dm39kFGB73QE46/view?usp=drivesdk" class="nav-link text-xl md:text-2xl text-gray-600 dark:text-gray-400 font-bold">
+                        <i data-lucide="file-text" class="w-6 h-6"></i>
+                        Resume
+                    </a>
+                    <a href="https://www.linkedin.com/in/ajaykumargundanver/" class="nav-link text-xl md:text-2xl text-gray-600 dark:text-gray-400 font-bold">
+                        <i data-lucide="linkedin" class="w-6 h-6"></i>
+                        LinkedIn
+                    </a>
+                    <a href="https://instagram.com/ajaykumar_bg" class="nav-link text-xl md:text-2xl text-gray-600 dark:text-gray-400 font-bold">
+                        <i data-lucide="instagram" class="w-6 h-6"></i>
+                        Instagram
+                    </a>
+                    <a href="https://x.com/ABGlegion" class="nav-link text-xl md:text-2xl text-gray-600 dark:text-gray-400 font-bold">
+                        <i data-lucide="twitter" class="w-6 h-6"></i>
+                        X/Twitter
+                    </a>
+                    <a href="mailto:ajaykumargundanvar@gmail.com" class="nav-link text-xl md:text-2xl text-gray-600 dark:text-gray-400 font-bold">
+                        <i data-lucide="mail" class="w-6 h-6"></i>
+                        Contact
+                    </a>
+                </nav>
+            </div>
+        </section>
+         <center> CLICK HERE TO GET OUT OF THE MATRIX</center>
+            
+        </p>
+    </footer>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: "#0a0a0a",
+                        light: "#fcfbf7",
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-light dark:bg-dark text-dark dark:text-white min-h-screen flex flex-col font-['Inter'] transition-colors duration-300">
+    <script>
+        lucide.createIcons();
+        
+        // Scroll reveal effect
+        function revealSections() {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                const sectionTop = section.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                if (sectionTop < windowHeight * 0.75) {
+                    section.classList.add('visible');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', revealSections);
+        window.addEventListener('load', revealSections);
+
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+
+        // Function to set the theme
+        function setTheme(isDark) {
+            if (isDark) {
+                html.classList.add('dark');
+            } else {
+                html.classList.remove('dark');
+            }
+            updateIcon(isDark);
+            localStorage.setItem('darkMode', isDark);
+        }
+
+        // Function to update the icon
+        function updateIcon(isDark) {
+            themeToggle.innerHTML = isDark
+                ? '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>'
+                : '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>';
+        }
+
+        // Function to get system preference
+        function getSystemPreference() {
+            return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        }
+
+        // Function to set initial theme
+        function setInitialTheme() {
+            const savedTheme = localStorage.getItem('darkMode');
+            if (savedTheme !== null) {
+                setTheme(JSON.parse(savedTheme));
+            } else {
+                setTheme(getSystemPreference());
+            }
+        }
+
+        // Toggle theme when button is clicked
+        themeToggle.addEventListener('click', () => {
+            const isDark = !html.classList.contains('dark');
+            setTheme(isDark);
+        });
+
+        // Listen for system preference changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (localStorage.getItem('darkMode') === null) {
+                setTheme(e.matches);
+            }
+        });
+  </script>
+</body>
+</html>
